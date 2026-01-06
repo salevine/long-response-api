@@ -1,0 +1,9 @@
+{
+  "name": "long-response-api",
+  "version": "1.0.0",
+  "description": "API for testing response times",
+  "private": true,
+  "engines": {
+    "node": ">=18"
+  }
+}
