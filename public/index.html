@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Test Response Time API</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 40px 20px;
+      background: #f5f5f5;
+      color: #333;
+      line-height: 1.6;
+    }
+    h1 {
+      color: #111;
+      border-bottom: 2px solid #333;
+      padding-bottom: 10px;
+    }
+    h2 {
+      margin-top: 30px;
+      color: #222;
+    }
+    code {
+      background: #e8e8e8;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: 'Monaco', 'Menlo', monospace;
+    }
+    pre {
+      background: #282c34;
+      color: #abb2bf;
+      padding: 16px;
+      border-radius: 8px;
+      overflow-x: auto;
+    }
+    .endpoint {
+      background: #fff;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 20px;
+      margin: 20px 0;
+    }
+    .method {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 4px;
+      font-weight: bold;
+      font-size: 14px;
+      margin-right: 8px;
+    }
+    .get { background: #61affe; color: white; }
+    .post { background: #49cc90; color: white; }
+    .put { background: #fca130; color: white; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 16px 0;
+    }
+    th, td {
+      text-align: left;
+      padding: 10px;
+      border-bottom: 1px solid #ddd;
+    }
+    th {
+      background: #f0f0f0;
+    }
+    .response-codes td:first-child {
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <h1>Test Response Time API</h1>
+  <p>A simple API to test response times. Specify a wait time in milliseconds and the API will respond after that delay.</p>
+
+  <div class="endpoint">
+    <h2>Endpoint</h2>
+    <p>
+      <span class="method get">GET</span>
+      <span class="method post">POST</span>
+      <span class="method put">PUT</span>
+      <code>/api/testResponseTime</code>
+    </p>
+
+    <h3>Parameters</h3>
+    <table>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Required</th>
+        <th>Description</th>
+      </tr>
+      <tr>
+        <td><code>testTime</code></td>
+        <td>integer</td>
+        <td>Yes</td>
+        <td>Time to wait in milliseconds (0 - 300000)</td>
+      </tr>
+    </table>
+
+    <h3>Response Codes</h3>
+    <table class="response-codes">
+      <tr>
+        <td>200</td>
+        <td>Success - Wait time completed</td>
+      </tr>
+      <tr>
+        <td>400</td>
+        <td>Bad Request - Missing or invalid testTime parameter</td>
+      </tr>
+      <tr>
+        <td>405</td>
+        <td>Method Not Allowed - Only GET, POST, PUT supported</td>
+      </tr>
+    </table>
+
+    <h3>Success Response</h3>
+    <pre>{
+  "message": "Wait Time Reached: 2000",
+  "requestedWaitMs": 2000,
+  "startTime": "2024-01-15T10:30:00.000Z",
+  "endTime": "2024-01-15T10:30:02.005Z",
+  "elapsedMs": 2005
+}</pre>
+
+    <h3>Response Fields</h3>
+    <table>
+      <tr>
+        <th>Field</th>
+        <th>Description</th>
+      </tr>
+      <tr>
+        <td><code>message</code></td>
+        <td>Confirmation message with requested wait time</td>
+      </tr>
+      <tr>
+        <td><code>requestedWaitMs</code></td>
+        <td>The wait time you requested (milliseconds)</td>
+      </tr>
+      <tr>
+        <td><code>startTime</code></td>
+        <td>ISO 8601 timestamp when the request was received</td>
+      </tr>
+      <tr>
+        <td><code>endTime</code></td>
+        <td>ISO 8601 timestamp when the response was sent</td>
+      </tr>
+      <tr>
+        <td><code>elapsedMs</code></td>
+        <td>Actual elapsed time in milliseconds (includes processing overhead)</td>
+      </tr>
+    </table>
+  </div>
+
+  <h2>Examples</h2>
+
+  <h3>GET Request</h3>
+  <pre>curl "https://long-response-api.vercel.app/api/testResponseTime?testTime=2000"</pre>
+
+  <h3>POST Request</h3>
+  <pre>curl -X POST "https://long-response-api.vercel.app/api/testResponseTime" \
+  -H "Content-Type: application/json" \
+  -d '{"testTime": 2000}'</pre>
+
+  <h3>PUT Request</h3>
+  <pre>curl -X PUT "https://long-response-api.vercel.app/api/testResponseTime" \
+  -H "Content-Type: application/json" \
+  -d '{"testTime": 2000}'</pre>
+
+  <h2>Notes</h2>
+  <ul>
+    <li>Maximum wait time is 300,000ms (5 minutes)</li>
+    <li>No authentication required</li>
+    <li>For POST/PUT requests, <code>testTime</code> can be passed in the request body or as a query parameter</li>
+  </ul>
+</body>
+</html>

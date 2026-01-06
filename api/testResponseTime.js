@@ -1,4 +1,7 @@
 export default async function handler(req, res) {
+  // Record start time
+  const startTime = new Date();
+
   // Only allow GET, POST, PUT methods
   const allowedMethods = ['GET', 'POST', 'PUT'];
   if (!allowedMethods.includes(req.method)) {
@@ -38,8 +41,16 @@ export default async function handler(req, res) {
   // Wait for the specified time
   await new Promise((resolve) => setTimeout(resolve, waitMs));
 
+  // Record end time and calculate elapsed
+  const endTime = new Date();
+  const elapsedMs = endTime - startTime;
+
   // Return success response
   return res.status(200).json({
-    message: `Wait Time Reached: ${waitMs}`
+    message: `Wait Time Reached: ${waitMs}`,
+    requestedWaitMs: waitMs,
+    startTime: startTime.toISOString(),
+    endTime: endTime.toISOString(),
+    elapsedMs: elapsedMs
   });
 }
