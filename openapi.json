@@ -1,0 +1,325 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Long Response API",
+    "version": "1.0.0",
+    "description": "API for testing response times and simple endpoint testing"
+  },
+  "servers": [
+    {
+      "url": "https://long-response-api.vercel.app",
+      "description": "Production server"
+    },
+    {
+      "url": "http://localhost:3000",
+      "description": "Local development server"
+    }
+  ],
+  "paths": {
+    "/api/testResponseTime": {
+      "get": {
+        "summary": "Test response time (GET)",
+        "description": "Wait for a specified time in milliseconds before responding",
+        "operationId": "testResponseTimeGet",
+        "parameters": [
+          {
+            "name": "testTime",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 300000
+            },
+            "description": "Time to wait in milliseconds (0 - 300000)"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success - Wait time completed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Wait Time Reached: 2000"
+                    },
+                    "requestedWaitMs": {
+                      "type": "integer",
+                      "example": 2000
+                    },
+                    "startTime": {
+                      "type": "string",
+                      "format": "date-time",
+                      "example": "2024-01-15T10:30:00.000Z"
+                    },
+                    "endTime": {
+                      "type": "string",
+                      "format": "date-time",
+                      "example": "2024-01-15T10:30:02.005Z"
+                    },
+                    "elapsedMs": {
+                      "type": "integer",
+                      "example": 2005
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Missing or invalid testTime parameter"
+          },
+          "405": {
+            "description": "Method Not Allowed"
+          }
+        }
+      },
+      "post": {
+        "summary": "Test response time (POST)",
+        "description": "Wait for a specified time in milliseconds before responding",
+        "operationId": "testResponseTimePost",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "testTime": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 300000,
+                    "description": "Time to wait in milliseconds (0 - 300000)"
+                  }
+                },
+                "required": ["testTime"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success - Wait time completed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Wait Time Reached: 2000"
+                    },
+                    "requestedWaitMs": {
+                      "type": "integer",
+                      "example": 2000
+                    },
+                    "startTime": {
+                      "type": "string",
+                      "format": "date-time",
+                      "example": "2024-01-15T10:30:00.000Z"
+                    },
+                    "endTime": {
+                      "type": "string",
+                      "format": "date-time",
+                      "example": "2024-01-15T10:30:02.005Z"
+                    },
+                    "elapsedMs": {
+                      "type": "integer",
+                      "example": 2005
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Missing or invalid testTime parameter"
+          },
+          "405": {
+            "description": "Method Not Allowed"
+          }
+        }
+      },
+      "put": {
+        "summary": "Test response time (PUT)",
+        "description": "Wait for a specified time in milliseconds before responding",
+        "operationId": "testResponseTimePut",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "testTime": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 300000,
+                    "description": "Time to wait in milliseconds (0 - 300000)"
+                  }
+                },
+                "required": ["testTime"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success - Wait time completed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Wait Time Reached: 2000"
+                    },
+                    "requestedWaitMs": {
+                      "type": "integer",
+                      "example": 2000
+                    },
+                    "startTime": {
+                      "type": "string",
+                      "format": "date-time",
+                      "example": "2024-01-15T10:30:00.000Z"
+                    },
+                    "endTime": {
+                      "type": "string",
+                      "format": "date-time",
+                      "example": "2024-01-15T10:30:02.005Z"
+                    },
+                    "elapsedMs": {
+                      "type": "integer",
+                      "example": 2005
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Missing or invalid testTime parameter"
+          },
+          "405": {
+            "description": "Method Not Allowed"
+          }
+        }
+      }
+    },
+    "/api/{param}/test_for_underscore": {
+      "get": {
+        "summary": "Test for underscore endpoint (GET)",
+        "description": "Simple endpoint that returns a success message. The path parameter can be any number or text.",
+        "operationId": "testForUnderscoreGet",
+        "parameters": [
+          {
+            "name": "param",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Any number or text (e.g., '123', 'abc', 'anynumber', 'text')"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "it worked"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "Method Not Allowed"
+          }
+        }
+      },
+      "post": {
+        "summary": "Test for underscore endpoint (POST)",
+        "description": "Simple endpoint that returns a success message. The path parameter can be any number or text.",
+        "operationId": "testForUnderscorePost",
+        "parameters": [
+          {
+            "name": "param",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Any number or text (e.g., '123', 'abc', 'anynumber', 'text')"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "it worked"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "Method Not Allowed"
+          }
+        }
+      },
+      "put": {
+        "summary": "Test for underscore endpoint (PUT)",
+        "description": "Simple endpoint that returns a success message. The path parameter can be any number or text.",
+        "operationId": "testForUnderscorePut",
+        "parameters": [
+          {
+            "name": "param",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Any number or text (e.g., '123', 'abc', 'anynumber', 'text')"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "it worked"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "Method Not Allowed"
+          }
+        }
+      }
+    }
+  }
+}
